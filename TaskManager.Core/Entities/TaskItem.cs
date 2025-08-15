@@ -17,6 +17,10 @@ namespace TaskManager.Core.Entities
 
         protected TaskItem() { }
 
+        public void ChangeStatus(Enums.TaskStatus newStatus)
+        {
+            Status = newStatus;
+        }
         public TaskItem(string title, string? description, Guid createdByUserId, Guid assignedUserId)
         {
             if (string.IsNullOrWhiteSpace(title))
