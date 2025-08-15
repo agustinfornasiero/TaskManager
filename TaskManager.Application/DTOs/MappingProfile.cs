@@ -6,9 +6,9 @@ using TaskManager.Core.Entities;
 
 namespace TaskManager.Application.DTOs
 {
-    public class MappingPofile : Profile
+    public class MappingProfile : Profile
     {
-        public MappingPofile()
+        public MappingProfile()
         {
             // Users
             CreateMap<User, UserDto>().ReverseMap();

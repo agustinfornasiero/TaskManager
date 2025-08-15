@@ -1,15 +1,14 @@
 ﻿
 using AutoMapper;
-using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 using TaskManager.Application.DTOs;
 
 namespace TaskManager.Application
 {
-    public static class ServiceCollectionExtensions
+    public static class DependencyInjection
     {
-        public static IServiceCollection AddApplication(this IServiceCollection services)
+        public static IServiceCollection AddApplicationServices(this IServiceCollection services)
         {
             // Registra MediatR para el procesamiento de comandos y consultas
             services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));

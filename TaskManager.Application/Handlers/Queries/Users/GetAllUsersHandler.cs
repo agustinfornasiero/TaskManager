@@ -9,7 +9,6 @@ namespace TaskManager.Application.Handlers.Queries.Users
     internal class GetAllUsersHandler : IRequestHandler<GetAllUsersQuery, IEnumerable<UserDto>>
     {
         private readonly IUserRepository _userRepository;
-
         private readonly IMapper _mapper;
 
         public GetAllUsersHandler(IUserRepository userRepository, IMapper mapper)
@@ -20,8 +19,10 @@ namespace TaskManager.Application.Handlers.Queries.Users
 
         public async Task<IEnumerable<UserDto>> Handle(GetAllUsersQuery request, CancellationToken cancellationToken)
         {
-            var users = _userRepository.GetAllAsync(cancellationToken);
+            // Espera la tarea para obtener la lista de usuarios
+            var users = await _userRepository.GetAllAsync(cancellationToken);
 
+            // Mapea la lista de usuarios a UserDto
             return _mapper.Map<IEnumerable<UserDto>>(users);
         }
     }
