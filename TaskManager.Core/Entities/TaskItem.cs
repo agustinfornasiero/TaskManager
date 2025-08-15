@@ -9,13 +9,22 @@ namespace TaskManager.Core.Entities
         public Enums.TaskStatus Status { get; private set; }
         public Guid AssignedUserId { get; private set; }
         public Guid CreatedByUserId { get; set; }
+        public DateTime CreatedAt { get; private set; }
+        public DateTime UpdatedAt { get; private set; }
+
+
 
         //Relación: Historial de Eventos. En Core la mantenemos como lista.
         private readonly List<TaskEvent> _events = new();
 
         public IReadOnlyCollection<TaskEvent> Events => _events.AsReadOnly();
 
-        protected TaskItem() { }
+        protected TaskItem() 
+        {
+            // En el constructor de TaskItem
+            CreatedAt = DateTime.UtcNow;  // Establecer CreatedAt
+            UpdatedAt = DateTime.UtcNow; // Establecer UpdatedAt
+        }
 
         public void ChangeStatus(Enums.TaskStatus newStatus)
         {
@@ -48,6 +57,7 @@ namespace TaskManager.Core.Entities
 
             Title = title;
             Description = description;
+            UpdatedAt = DateTime.UtcNow;
             Touch();
             AddEvent(new TaskEvent(Id, "Detalles Actualizados."));
 
@@ -60,6 +70,7 @@ namespace TaskManager.Core.Entities
 
             var oldStatus = Status;
             Status = newStatus;
+            UpdatedAt = DateTime.UtcNow;
             Touch();
             AddEvent(new TaskEvent(Id, $"Estado cambiado de {oldStatus} a {newStatus}.",
                 fromUserId: changeByUserId, toUserId: changeByUserId, fromStatus: oldStatus, toStatus: newStatus));
@@ -74,6 +85,7 @@ namespace TaskManager.Core.Entities
 
             var oldAssgnee = AssignedUserId;
             AssignedUserId = newAssignedUserId;
+            UpdatedAt = DateTime.UtcNow;
             Touch();
             AddEvent(new TaskEvent(Id, $"Tarea reasignada de {oldAssgnee} a {newAssignedUserId}.",
                 fromUserId: changeByUserId, toUserId: newAssignedUserId));
